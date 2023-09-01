@@ -60,6 +60,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#3dd2fe",
         goals: [""],
+        niveau: [""],
       },
       {
         title: "PURES LESEN",
@@ -69,6 +70,7 @@ const dataPage = {
           "linear-gradient(54deg, rgba(56,200, 251,1) 25%, rgba(26, 129, 221,1) 50%",
         textContent: "rgba(26, 129, 221,1)",
         goals: ["lesen"],
+        niveau: ["schwer"],
       },
       {
         title: "RELAX & FOKUS",
@@ -76,6 +78,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#1576d9",
         goals: ["fokus", "lesen"],
+        niveau: ["leicht"],
       },
       {
         title: "WORTSCHATZ",
@@ -85,6 +88,7 @@ const dataPage = {
           "linear-gradient(54deg, rgba(235, 78,122,1) 25%, rgba(174, 35, 208,1) 50%",
         textContent: "rgba(174, 35, 208,1)",
         goals: ["wortschatz", "schreiben"],
+        niveau: ["leicht"],
       },
 
       {
@@ -93,6 +97,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#a61ddc",
         goals: ["wortschatz", "schreiben"],
+        niveau: ["mittel"],
       },
       {
         title: "LEVEL UP",
@@ -100,6 +105,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#23bf4a",
         goals: ["lesen", "schreiben"],
+        niveau: ["mittel"],
       },
       {
         title: "WORTSCHATZ & FOKUS",
@@ -107,6 +113,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#f28606",
         goals: ["fokus", "wortschatz"],
+        niveau: ["mittel"],
       },
       {
         title: "GENAU LESEN",
@@ -114,6 +121,7 @@ const dataPage = {
         icon: "bar_chart",
         background: "#fdce19",
         goals: ["lesen", "fokus"],
+        niveau: ["mittel"],
       },
     ],
   },
@@ -201,6 +209,10 @@ dataPage.main.cards.map((card) => {
   if (card.goals.join(" ").length > 0) {
     cardItem.classList.add(...card.goals);
   }
+  // add classes to card by niveau
+  if (card.niveau.join(" ").length > 0) {
+    cardItem.classList.add(...card.niveau);
+  }
 
   // add background to card by dataPage
   cardItem.style.background = card.background;
@@ -248,13 +260,14 @@ checked.forEach((item) => {
     // get all cards
     const cards = document.querySelectorAll(".card");
 
-    // filter cards by goals
+    // filter cards by goals and show them or hide them if they don't match the goals of the checked checkboxes values
     cards.forEach((card) => {
+      // get classes from card without first class "card"
       const goals = card.classList.value.split(" ").slice(1);
 
       if (goals.length > 0) {
         const isMatch = checkedValues.every((goal) => goals.includes(goal));
-        console.log(isMatch);
+
         if (isMatch) {
           card.style.display = "flex";
         } else {
