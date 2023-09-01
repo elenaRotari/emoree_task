@@ -146,6 +146,7 @@ spanNiveau.textContent = dataPage.nav.niveau.label;
 niveau.appendChild(spanNiveau);
 nav.appendChild(niveau);
 
+// create options type checkbox for ziele && Labels
 const zieleOptions = document.createElement("div");
 zieleOptions.classList.add("options");
 dataPage.nav.ziele.options.map((option) => {
@@ -163,6 +164,7 @@ dataPage.nav.ziele.options.map((option) => {
 
 ziele.appendChild(zieleOptions);
 
+// create options type checkbox for niveau && Labels
 const niveauOptions = document.createElement("div");
 niveauOptions.classList.add("options");
 dataPage.nav.niveau.options.map((option) => {
@@ -185,19 +187,22 @@ const main = document.createElement("div");
 main.classList.add("main_container");
 app.appendChild(main);
 
-// create cards
+// create cards container
 const cards = document.createElement("div");
 cards.classList.add("cards");
 main.appendChild(cards);
 
+// create every card and add data
 dataPage.main.cards.map((card) => {
   const cardItem = document.createElement("div");
   cardItem.classList.add("card");
+
+  // add classes to card by goals
   if (card.goals.join(" ").length > 0) {
     cardItem.classList.add(...card.goals);
   }
-  // cardItem.setAttribute("data-goals", card.goals);
 
+  // add background to card by dataPage
   cardItem.style.background = card.background;
   cards.appendChild(cardItem);
 
@@ -205,16 +210,19 @@ dataPage.main.cards.map((card) => {
   flex.classList.add("flex");
   cardItem.appendChild(flex);
 
+  // add title to card by dataPage
   const cardTitle = document.createElement("p");
   cardTitle.classList.add("card__title");
   cardTitle.textContent = card.title;
   flex.appendChild(cardTitle);
 
+  // add description to card by dataPage
   const cardDescription = document.createElement("p");
   cardDescription.classList.add("card__description");
   cardDescription.textContent = card.description;
   cardItem.appendChild(cardDescription);
 
+  // add icon to card by dataPage
   const cardIcon = document.createElement("i");
   cardIcon.classList.add("material-icons");
   cardIcon.textContent = card.icon;
@@ -225,19 +233,25 @@ dataPage.main.cards.map((card) => {
 
 // filter cards by goals
 
+// select all checkboxes inputs
 const checked = document.querySelectorAll("input[type=checkbox]");
 
+// add event listener to checkboxes
 checked.forEach((item) => {
   item.addEventListener("change", (e) => {
+    // get all checked checkboxes and filter them
     const checkboxes = [...checked].filter((checkbox) => checkbox.checked);
-    console.log(checkboxes);
+
+    // get all checked checkboxes values
     const checkedValues = checkboxes.map((checkbox) => checkbox.name);
-    console.log(checkedValues);
+
+    // get all cards
     const cards = document.querySelectorAll(".card");
-    console.log(cards);
+
+    // filter cards by goals
     cards.forEach((card) => {
       const goals = card.classList.value.split(" ").slice(1);
-      console.log(goals);
+
       if (goals.length > 0) {
         const isMatch = checkedValues.every((goal) => goals.includes(goal));
         console.log(isMatch);
