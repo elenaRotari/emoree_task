@@ -213,14 +213,14 @@ dataPage.main.cards.map((card) => {
   const cardDescription = document.createElement("p");
   cardDescription.classList.add("card__description");
   cardDescription.textContent = card.description;
-  flex.appendChild(cardDescription);
+  cardItem.appendChild(cardDescription);
 
   const cardIcon = document.createElement("i");
   cardIcon.classList.add("material-icons");
   cardIcon.textContent = card.icon;
   cardIcon.style.color = card.background;
   cardIcon.style.color = card.textContent;
-  cardItem.appendChild(cardIcon);
+  flex.appendChild(cardIcon);
 });
 
 // filter cards by goals
@@ -242,14 +242,14 @@ checked.forEach((item) => {
         const isMatch = checkedValues.every((goal) => goals.includes(goal));
         console.log(isMatch);
         if (isMatch) {
-          card.style.display = "block";
+          card.style.display = "flex";
         } else {
           card.style.display = "none";
         }
       } else if (checkedValues.length > 0 && goals.length === 0) {
         card.style.display = "none";
       } else {
-        card.style.display = "block";
+        card.style.display = "flex";
       }
     });
   });
