@@ -1,6 +1,8 @@
 import "./style.css";
 
+// data for page
 const dataPage = {
+  //top data with Label and options
   nav: {
     ziele: {
       label: "Ziele:",
@@ -13,7 +15,7 @@ const dataPage = {
         {
           label: "Fokus",
           type: "checkbox",
-          name: "focus",
+          name: "fokus",
         },
         {
           label: "Wortschatz",
@@ -48,6 +50,7 @@ const dataPage = {
       ],
     },
   },
+  // data for cards with title, description, icon, background, goals
   main: {
     cards: [
       {
@@ -56,6 +59,7 @@ const dataPage = {
           "Erhalte hier mehr Übungsempfehlungen aus über 10 Jahren Erfahrung und aus mehr als 25.000 virtuellen Klassenstunden. Du vervolgst mehrere Ziele? Ergänze dein Förderprogramm bis zu 18 Wochen im Voraus mit wenigen Klicks.",
         icon: "bar_chart",
         background: "#3dd2fe",
+        goals: [""],
       },
       {
         title: "PURES LESEN",
@@ -64,14 +68,14 @@ const dataPage = {
         background:
           "linear-gradient(54deg, rgba(56,200, 251,1) 25%, rgba(26, 129, 221,1) 50%",
         textContent: "rgba(26, 129, 221,1)",
-        goals: ["Lesen"],
+        goals: ["lesen"],
       },
       {
-        title: "RELAX & FOCUS",
+        title: "RELAX & FOKUS",
         description: "Konzentration | Leicht | 3 Wochen",
         icon: "bar_chart",
         background: "#1576d9",
-        goals: ["Fokus", "Lesen"],
+        goals: ["fokus", "lesen"],
       },
       {
         title: "WORTSCHATZ",
@@ -80,7 +84,7 @@ const dataPage = {
         background:
           "linear-gradient(54deg, rgba(235, 78,122,1) 25%, rgba(174, 35, 208,1) 50%",
         textContent: "rgba(174, 35, 208,1)",
-        goals: ["Wortschatz", "Schreiben"],
+        goals: ["wortschatz", "schreiben"],
       },
 
       {
@@ -88,47 +92,48 @@ const dataPage = {
         description: "Lesenkompetenz | MITTEL | 3 Wochen",
         icon: "bar_chart",
         background: "#a61ddc",
-        goals: ["Wortschatz", "Schreiben"],
+        goals: ["wortschatz", "schreiben"],
       },
       {
         title: "LEVEL UP",
         description: "Lesenkompetenz | MITTEL | 6 Wochen",
         icon: "bar_chart",
         background: "#23bf4a",
-        goals: ["Lesen", "Schreiben"],
+        goals: ["lesen", "schreiben"],
       },
       {
-        title: "WORTSCHATZ & FOCUS",
+        title: "WORTSCHATZ & FOKUS",
         description: "Lesenkompetenz | MITTEL | 6 Wochen",
         icon: "bar_chart",
         background: "#f28606",
-        goals: ["Fokus", "Wortschatz"],
+        goals: ["fokus", "wortschatz"],
       },
       {
         title: "GENAU LESEN",
         description: "Text | MITTEL | 3 Wochen",
         icon: "bar_chart",
         background: "#fdce19",
-        goals: ["Lesen", "Fokus"],
+        goals: ["lesen", "fokus"],
       },
     ],
   },
 };
-
+// create page
 const app = document.querySelector("#app");
+
 // title
 const h3 = document.createElement("p");
 h3.classList.add("title");
 h3.textContent = "Trainingspläne (7)";
 app.appendChild(h3);
 
-//nav
+//create nav /top
 const nav = document.createElement("nav");
 nav.classList.add("nav");
 app.appendChild(nav);
 
 const ziele = document.createElement("label");
-ziele.classList.add("label", "ziele");
+ziele.classList.add("label");
 const spanZiele = document.createElement("span");
 spanZiele.textContent = dataPage.nav.ziele.label;
 ziele.appendChild(spanZiele);
@@ -188,6 +193,11 @@ main.appendChild(cards);
 dataPage.main.cards.map((card) => {
   const cardItem = document.createElement("div");
   cardItem.classList.add("card");
+  if (card.goals.join(" ").length > 0) {
+    cardItem.classList.add(...card.goals);
+  }
+  // cardItem.setAttribute("data-goals", card.goals);
+
   cardItem.style.background = card.background;
   cards.appendChild(cardItem);
 
@@ -211,4 +221,36 @@ dataPage.main.cards.map((card) => {
   cardIcon.style.color = card.background;
   cardIcon.style.color = card.textContent;
   cardItem.appendChild(cardIcon);
+});
+
+// filter cards by goals
+
+const checked = document.querySelectorAll("input[type=checkbox]");
+
+checked.forEach((item) => {
+  item.addEventListener("change", (e) => {
+    const checkboxes = [...checked].filter((checkbox) => checkbox.checked);
+    console.log(checkboxes);
+    const checkedValues = checkboxes.map((checkbox) => checkbox.name);
+    console.log(checkedValues);
+    const cards = document.querySelectorAll(".card");
+    console.log(cards);
+    cards.forEach((card) => {
+      const goals = card.classList.value.split(" ").slice(1);
+      console.log(goals);
+      if (goals.length > 0) {
+        const isMatch = checkedValues.every((goal) => goals.includes(goal));
+        console.log(isMatch);
+        if (isMatch) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      } else if (checkedValues.length > 0 && goals.length === 0) {
+        card.style.display = "none";
+      } else {
+        card.style.display = "block";
+      }
+    });
+  });
 });
